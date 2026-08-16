@@ -1,0 +1,74 @@
+CREATE TABLE FLIGHT_SCH
+( flightno char(4) constraint flightno_pk primary key,
+ airbusno char(5) constraint airbusno_fk references airbus,
+ route_code char(7),
+ deprt_time char(5),
+ journey_hrs char(5),
+ flight_day1 number(1),
+ flight_day2 number(1),
+ constraint route_code_fk foreign key(route_code)
+ references fare(route_code)
+);
+
+
+create table flight
+(flightno char(4) constraint flghtno_fk references flight_sch,
+flight_date date not null,
+first_seats_bk number(3),
+bus_seats_bk number(3),
+eco_seats_bk number(3)
+);
+
+create table control
+( air_tax number(4),
+ excess_bag_chg number(3),
+ first_bag_limit number(3),
+ bus_bag_limit number(3),
+ eco_bag_limit number(3),
+ canc_deduc_12 number(2),
+ canc_deduc_6 number(2),
+ canc_deduc_3 number(2)
+);
+
+create table reservation
+( pnr number(5) constraint pnr_pk primary key,
+ flightno char(4) constraint flightno_fk references flight_sch,
+ flight_date date constraint flight_date_nn not null,
+ class char(1) constraint class_nn not null,
+ reserv_date date constraint reserv_date_nn not null,
+ pass_name char(30) constraint pass_name_nn not null,
+ pass_add1 varchar2(40) constraint pass_add1_nn not null,
+ pass_add2 varchar2(40),
+ pass_add3 varchar2(40),
+ passport_no number(8),
+ ss_code char(2),
+ credit_card_no number(8),
+ pass_status char(1) constraint pass_status_nn not null,
+ total_fare number(8,2),
+ branch_code char(4),
+ constraint ss_code_fk foreign key(ss_code) references service(ss_code),
+ constraint branch_code_fk foreign key(branch_code) references branch(branch_code)
+);
+
+create table cancellation
+(
+ pnr number(5) constraint pnr_fk references reservation,
+ flightno char(4),
+ flight_date date constraint c_flight_date_nn not null,
+ class char(1) constraint c_class_nn not null,
+ reserv_date date constraint c_reserv_date_nn not null,
+ pass_name char(3) constraint c_pass_name_nn not null,
+ pass_add1 varchar2(40) constraint c_pass_add1_nn not null,
+ pass_add2 varchar2(40),
+ pass_add3 varchar2(40),
+ passport_no number(8),
+ ss_code char(2),
+ credit_card_no number(8),
+ cancel_date date constraint c_cance_date_nn not null,
+ total_fare number(8,2),
+ branch_code char(4),
+ constraint c_flightno foreign key(flightno) references flight_sch(flightno),
+ constraint c_ss_code_fk foreign key(ss_code) references service(ss_code),
+ constraint c_branch_code_fk foreign key(branch_code) references branch(branch_code)
+)
+/

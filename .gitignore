@@ -1,0 +1,11 @@
+# VB6 build output / IDE noise
+*.exe
+*.log
+*.tmp
+*.vbw
+*.scc
+*.swp
+
+# Windows junk
+Thumbs.db
+desktop.ini
