@@ -29,7 +29,7 @@ and has been removed from this repo.
   engine built into Windows via `Microsoft.Jet.OLEDB.4.0`, which ships with
   Windows/Office. No ODBC DSN setup is required (see below).
 
-## What was fixed in this copy
+## What was fixed 
 
 The original source had two categories of bugs that would have broken it
 the moment it was copied to a new machine:
