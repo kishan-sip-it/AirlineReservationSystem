@@ -1,0 +1,30 @@
+name: Project integrity
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  verify-project-files:
+    name: Verify VB6 project files
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify required project files
+        shell: pwsh
+        run: |
+          $required = @(
+            'AirReservation.vbp',
+            'AirReservation.mdb',
+            'AirReservationMDI.frm'
+          )
+          foreach ($file in $required) {
+            if (-not (Test-Path $file)) {
+              throw "Required project file is missing: $file"
+            }
+          }
+          Write-Host 'VB6 project files are present.'
